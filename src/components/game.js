@@ -66,7 +66,7 @@
 
   Game.prototype.bindEvents = function() {
     this.$gameBackBtn.addEventListener('click', () => {
-      this.returnGame();
+      this.prevGame();
       this.startGame();
     });
   }
@@ -76,11 +76,11 @@
     this.startGame();
   }
 
-  Game.prototype.returnGame = function() {
+  Game.prototype.prevGame = function() {
     // round ex)8 -> 16 바뀔때 확인...
     let isChangeRound = !this.players.filter(player => player.played).length;
     if(isChangeRound) {
-      this.returnRound();
+      this.prevRound();
     }
 
     // return prevPlayers data
@@ -129,13 +129,9 @@
     this.fightPlayers = [this.nextPlayers[0], this.nextPlayers[1]];
     this.renderPlayers();
     this.toogleBackBtn();
-    this.eventCallback({
-      message: 'updateHistory',
-      players: this.players
-    })
   }
 
-  Game.prototype.returnRound = function() {
+  Game.prototype.prevRound = function() {
     this.depth = this.depth - 1;
     this.players = this.historyDepth[this.depth];
     this.playedPlayers = this.players.filter((player, index) => {
@@ -173,10 +169,15 @@
   }
 
   Game.prototype.resultGame = function(champion) {
+    this.eventCallback({
+      message: 'updateHistory',
+      historyDepth: this.historyDepth,
+      depth: this.depth
+    });
     this.modal = new Modal({
       player: champion,
       eventCallback: this.eventCallback.bind(this, {
-        message: 'render'
+        message: 'restartGame'
       })
     });
     this.el.appendChild(this.modal.render().el);

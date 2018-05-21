@@ -15,21 +15,17 @@
     this.el.appendChild(this.game.render().el);
   }
 
-  App.prototype.renderHistory = function() {
-    if(this.history) { this.history.empty(); }
-    this.history = new History({
-      players: this.game.players
-    });
+  App.prototype.renderHistory = function(historyDepth, depth) {
+    this.history = new History({historyDepth, depth});
     this.el.appendChild(this.history.render().el);
   }
 
   App.prototype.eventCallback = function(options) {
     let message = options.message;
-    if(message === 'render') {
+    if(message === 'restartGame') {
       this.render();
     } else if(message === 'updateHistory') {
-      // this.players = options.players;
-      // this.renderHistory();
+      this.renderHistory(options.historyDepth , options.depth);
     }
   }
 

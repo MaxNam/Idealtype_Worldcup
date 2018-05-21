@@ -114,6 +114,10 @@ address,caption,cite,code,dfn,em,var{font-style:normal;font-weight:normal}
   text-align: center;
 }
 
+.history {
+  overflow: hidden;
+}
+
 
 .modal_wrap {
   position: absolute;
