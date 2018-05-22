@@ -6,29 +6,31 @@
   }
 
   History.prototype.render = function() {
-    let $temp = document.createElement('div');
-    let temps = [];
-    for(var i = this.maxDepth; 0 < i; i--) {
-      temps.
+    let temp = document.createElement('div');
+    let htmlList = [];
+    for(var idx = this.maxDepth; 0 < idx; --idx) {
+      htmlList.push(`<div class="history_depth">${this.renderPlayers(this.historyDepth[idx], idx)}</div>`);
     }
-    $temp.innerHTML = `<div class="history">
-                        ${this.renderPlayers()}
+    temp.innerHTML = `<div class="history">
+                        <h1 class="history_title">History</h1>
+                        ${htmlList.join('')}
                       </div>`;
-    this.el = $temp.querySelector('.history');
+    this.el = temp.querySelector('.history');
     this.html = this.el.parentNode.innerHTML;
     return this;
   }
 
-  History.prototype.renderPlayers = function() {
-
-
-
-    let players = this.historyDepth[this.depth].filter(player => player.depth === this.depth || player.depth === this.depth + 1);
+  History.prototype.renderPlayers = function(list, depth) {
+    let players = list.filter(player => player.depth === depth || player.depth === depth + 1);
     return players.map(player => {
+      if(player.depth === depth && player.depth !== this.maxDepth) {
+        player.className = 'off' ;
+      }
       return `${player.render().html}`
     }).join('');
   }
 
-  exports.History = History;
+  exports.app = exports.app || {};
+  exports.app.History = History;
 
 })(window, document)

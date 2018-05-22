@@ -3,7 +3,7 @@
   function Game(options) {
     this.players = mixPlayers(options.players.map(data => {
       data.eventCallback = this.nextGame.bind(this);
-      return new Player(data)
+      return new app.Player(data)
     }));
     this.eventCallback = options.eventCallback;
     this.depth = 1;
@@ -32,17 +32,17 @@
   }
 
   Game.prototype.render = function() {
-    let $temp = document.createElement('div');
-    $temp.innerHTML = `<div class="game">
+    let temp = document.createElement('div');
+    temp.innerHTML = `<div class="game">
                         <h1 class="game_title"></h1>
                         <div class="game_players"></div>
                         <button class="game_back_btn"></button>
                       </div>`;
-    this.el = $temp.querySelector('.game');
+    this.el = temp.querySelector('.game');
     this.html = this.el.parentNode.innerHTML;
-    this.$gameTitle = this.el.querySelector('.game_title');
-    this.$gamePlayers = this.el.querySelector('.game_players');
-    this.$gameBackBtn = this.el.querySelector('.game_back_btn');
+    this.gameTitle = this.el.querySelector('.game_title');
+    this.gamePlayers = this.el.querySelector('.game_players');
+    this.gameBackBtn = this.el.querySelector('.game_back_btn');
     this.bindEvents();
     this.startGame();
     return this;
@@ -51,21 +51,21 @@
   Game.prototype.renderTitle = function() {
     // 갯수만큼 2제곱
     let roundNumber = this.players.length / (this.depth === 1 ? 1 : Math.pow(2, this.depth - 1));
-    this.$gameTitle.innerText = roundNumber + '강';
+    this.gameTitle.innerText = roundNumber + '강';
   }
 
   Game.prototype.renderPlayers = function() {
-    this.$gamePlayers.innerHTML = '';
+    this.gamePlayers.innerHTML = '';
     this.fightPlayers.forEach(player => {
-      let $player = doc.createElement('div');
-      $player.classList.add('game_player');
-      $player.appendChild(player.render().el);
-      this.$gamePlayers.appendChild($player)
+      let playerDom = doc.createElement('div');
+      playerDom.classList.add('game_player');
+      playerDom.appendChild(player.render().el);
+      this.gamePlayers.appendChild(playerDom)
     });
   }
 
   Game.prototype.bindEvents = function() {
-    this.$gameBackBtn.addEventListener('click', () => {
+    this.gameBackBtn.addEventListener('click', () => {
       this.prevGame();
       this.startGame();
     });
@@ -108,7 +108,11 @@
   Game.prototype.startGame = function() {
     this.renderTitle();
     if(this.depth === this.maxDepth) {
-      this.resultGame(this.players.filter(player => player.depth === this.depth + 1)[0]);
+      this.writeHistory();
+      this.resultGame(Object.assign({} ,this.players.filter(player => {
+        delete player.eventCallback;
+        return player.depth === this.depth + 1;
+      })[0]));
       return;
     }
     this.playedPlayers = this.players.filter(player => player.played);
@@ -133,7 +137,10 @@
 
   Game.prototype.prevRound = function() {
     this.depth = this.depth - 1;
-    this.players = this.historyDepth[this.depth];
+    this.players = this.historyDepth[this.depth].map(player => {
+      player.eventCallback = this.nextGame.bind(this);
+      return player;
+    });
     this.playedPlayers = this.players.filter((player, index) => {
       if(this.depth === player.depth || this.depth + 1 === player.depth) {
         player.played = true;
@@ -156,26 +163,29 @@
   Game.prototype.writeHistory = function() {
     this.historyDepth[this.depth] = this.players.map(player => {
       let options = Object.assign({}, player);
-      return new Player(options);
+      delete options.eventCallback;
+      return new app.Player(options);
     });
   }
 
   Game.prototype.toogleBackBtn = function() {
     if(this.prevPlayers.length) {
-      this.$gameBackBtn.style.display = 'block';
+      this.gameBackBtn.style.display = 'block';
     } else {
-      this.$gameBackBtn.style.display = 'none';
+      this.gameBackBtn.style.display = 'none';
     }
   }
 
   Game.prototype.resultGame = function(champion) {
+    this.depth = this.depth + 1;
+    this.writeHistory();
     this.eventCallback({
       message: 'updateHistory',
       historyDepth: this.historyDepth,
       depth: this.depth
     });
-    this.modal = new Modal({
-      player: champion,
+    this.modal = new app.Modal({
+      player: new app.Player(champion),
       eventCallback: this.eventCallback.bind(this, {
         message: 'restartGame'
       })
@@ -183,6 +193,7 @@
     this.el.appendChild(this.modal.render().el);
   }
 
-  exports.Game = Game;
+  exports.app = exports.app || {};
+  exports.app.Game = Game;
 
 })(window, document)

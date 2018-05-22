@@ -8,7 +8,7 @@
 
   App.prototype.render = function() {
     this.el.innerHTML = '';
-    this.game = new Game({
+    this.game = new app.Game({
       players: this.players,
       eventCallback: this.eventCallback.bind(this)
     });
@@ -16,7 +16,7 @@
   }
 
   App.prototype.renderHistory = function(historyDepth, depth) {
-    this.history = new History({historyDepth, depth});
+    this.history = new app.History({historyDepth, depth});
     this.el.appendChild(this.history.render().el);
   }
 
@@ -25,10 +25,11 @@
     if(message === 'restartGame') {
       this.render();
     } else if(message === 'updateHistory') {
-      this.renderHistory(options.historyDepth , options.depth);
+      this.renderHistory(options.historyDepth, options.depth);
     }
   }
 
-  exports.App = App;
+  exports.app = exports.app || {};
+  exports.app.App = App;
 
 })(window, document)

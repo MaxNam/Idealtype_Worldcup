@@ -28,6 +28,8 @@ address,caption,cite,code,dfn,em,var{font-style:normal;font-weight:normal}
   width: 1000px;
   margin: 0 auto;
   overflow: hidden;
+  background: url('../assets/playground.jpg');
+  background-size: 100% 100%;
 }
 .game:after {
   content: '';
@@ -50,7 +52,6 @@ address,caption,cite,code,dfn,em,var{font-style:normal;font-weight:normal}
   text-align: center;
   font-size: 50px;
   font-weight: bold;
-  background-color: #dcdcdc;
 }
 .game_back_btn {
   position: absolute;
@@ -67,12 +68,12 @@ address,caption,cite,code,dfn,em,var{font-style:normal;font-weight:normal}
 
 /* .slide_slider  */
 
-.card {
+.player {
   width: 500px;
   float: left;
   text-align: center;
 }
-.card_wrap {
+.player_wrap {
   position: relative;
   width: 300px;
   height: 400px;
@@ -82,17 +83,14 @@ address,caption,cite,code,dfn,em,var{font-style:normal;font-weight:normal}
   border: 1px solid #dcdcdc;
   text-align: center;
 }
-.history .card_wrap {
-  width: 50px;
-  height: 75px;
-  float: left;
-  margin: 0;
-  padding: 0;
+.player_imgbox {
+  width: 100%;
+  min-height: 260px;
 }
-.card_img {
+.player_img {
   width: 100%;
 }
-.card_btn {
+.player_btn {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -104,18 +102,57 @@ address,caption,cite,code,dfn,em,var{font-style:normal;font-weight:normal}
   font-weight: bold;
   font-size: 20px;
 }
-.history .card_btn {
+.player_name {
+  display: block;
+  padding: 25px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+.player_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  background-color: #000;
+  opacity: .7;
+}
+.off .player_overlay {
+  display: block;
+}
+
+
+.history {
+  width: 100%;
+  min-width: 1000px;
+  margin: 0 auto;
+}
+.history_title {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 50px;
+}
+.history_depth {
+  padding: 10px;
+  text-align: center;
+}
+.history .player_wrap {
+  display: inline-block;
+  width: 50px;
+  height: 75px;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+}
+.history .player_name {
   padding: 0;
   font-size: 5px;
 }
-.card_name {
-  padding: 25px;
-  font-size: 30px;
-  text-align: center;
-}
-
-.history {
-  overflow: hidden;
+.history .player_imgbox {
+  width: 100%;
+  min-height: 60px;
 }
 
 
@@ -138,8 +175,8 @@ address,caption,cite,code,dfn,em,var{font-style:normal;font-weight:normal}
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: #dcdcdc;
-  opacity: .8;
+  background: url('../assets/winner.jpg');
+  background-size: 100% 100%;
 }
 
 .modal_head {

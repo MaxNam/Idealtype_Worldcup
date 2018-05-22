@@ -3,8 +3,8 @@ window.data = {
     [
       {
         "id": 1,
-        "name": "설현",
-        "image": "http://img.insight.co.kr/static/2018/01/03/700/f1ffgt5obm8o1xx65thn.jpg",
+        "name": "손예진",
+        "image": "https://search.pstatic.net/common?type=a&size=120x150&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F201104%2F20110412120400905.jpg",
         "depth": 1,
         "played": false
       },
@@ -112,6 +112,6 @@ window.data = {
         "image": "https://search.pstatic.net/common?type=a&size=120x150&quality=95&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2F133%2F201706191754547821.jpg",
         "depth": 1,
         "played": false
-      },
+      }
     ]
 }

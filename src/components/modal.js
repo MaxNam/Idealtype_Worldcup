@@ -6,20 +6,20 @@
   }
 
   Modal.prototype.render = function() {
-    let $temp = document.createElement('div');
-    $temp.innerHTML = `<div class="modal_wrap">
+    let temp = document.createElement('div');
+    temp.innerHTML = `<div class="modal_wrap">
                         <div class="modal">
                           <div class="modal_head">
                             <h1>우승자</h1>
                           </div>
                           <div class="modal_body">
-                            ${this.player.html}
+                            ${this.player.render().html}
                           </div>
                           <div class="modal_close"></div>
                         </div>
                         <div class="modal_overlay"></div>
                       </div>`;
-    this.el = $temp.querySelector('.modal_wrap');
+    this.el = temp.querySelector('.modal_wrap');
     this.html = this.el.parentNode.innerHTML;
     this.bindEvents();
     return this;
@@ -36,6 +36,7 @@
     })
   }
 
-  exports.Modal = Modal;
+  exports.app = exports.app || {};
+  exports.app.Modal = Modal;
 
 })(window, document)
